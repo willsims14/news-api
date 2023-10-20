@@ -2,19 +2,23 @@
 import requests     
 from google.cloud import firestore
 from hashlib import blake2b
+import os
 
 db = firestore.Client(project="sims-398915")
 collection_ref = db.collection("articles")
 
+
+def main():
+    NewsFromBBC()
+
+
 def NewsFromBBC():
+    """Call News API for BBC source"""
      
-    # BBC news api
-    # following query parameters are used
-    # source, sortBy and apiKey
     query_params = {
       "source": "bbc-news",
       "sortBy": "top",
-      "apiKey": "ec9d43ad13644f6bb1357e9f5c4443d9"
+      "apiKey": os.environ['NEWS_API_KEY']
     }
     main_url = " https://newsapi.org/v1/articles"
  
@@ -40,8 +44,5 @@ def NewsFromBBC():
         print(i + 1, results[i])
                
  
-# Driver Code
-if __name__ == '__main__':
-     
-    # function call
-    NewsFromBBC() 
+if __name__ == '__main__':     
+    main()
